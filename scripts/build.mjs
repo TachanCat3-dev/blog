@@ -227,8 +227,9 @@ function renderPage(site, options) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(documentTitle)}</title>
   <meta name="description" content="${escapeAttr(descriptionText)}">
-${site.author ? `  <meta name="author" content="${escapeAttr(site.author)}">\n` : ''}  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#fbfaf7">
+${site.author ? `  <meta name="author" content="${escapeAttr(site.author)}">\n` : ''}  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="${prefix}assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${prefix}assets/style.css?v=${site.assetVersion}">
   <link rel="alternate" type="application/rss+xml" title="${escapeAttr(site.title)}" href="${prefix}feed.xml">

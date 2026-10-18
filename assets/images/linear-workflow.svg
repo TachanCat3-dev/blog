@@ -1,39 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 250" role="img" aria-label="线性工作流示意图：sRGB 贴图解码为线性值，在线性空间计算，最后编码回 sRGB 输出">
+  <style>
+    .canvas { fill: #fafafa; stroke: #e6e6e6; }
+    .box { fill: #ffffff; stroke: #d9d9d9; }
+    .box-strong { fill: #ffffff; stroke: #000000; }
+    .title { fill: #000000; }
+    .sub { fill: #595959; }
+    .tiny { fill: #8c8c8c; }
+    .arrow { stroke: #999999; }
+    .arrowhead { fill: #999999; }
+    .accent-label { fill: #000000; }
+    .footnote { fill: #737373; }
+
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #050505; stroke: #262626; }
+      .box { fill: #0a0a0a; stroke: #333333; }
+      .box-strong { fill: #0a0a0a; stroke: #ffffff; }
+      .title { fill: #ffffff; }
+      .sub { fill: #b3b3b3; }
+      .tiny { fill: #8f8f8f; }
+      .arrow { stroke: #666666; }
+      .arrowhead { fill: #666666; }
+      .accent-label { fill: #ffffff; }
+      .footnote { fill: #8f8f8f; }
+    }
+  </style>
+
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0 L10 5 L0 10 z" fill="#a39d91"/>
+      <path d="M0 0 L10 5 L0 10 z" class="arrowhead"/>
     </marker>
   </defs>
 
-  <rect width="920" height="250" rx="16" fill="#f7f4ee"/>
+  <rect x="1" y="1" width="918" height="248" rx="16" class="canvas"/>
 
   <g font-family="'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
     <!-- box 1 -->
-    <rect x="36" y="60" width="248" height="112" rx="12" fill="#ffffff" stroke="#e3ddd1"/>
-    <text x="160" y="100" text-anchor="middle" font-size="22" font-weight="600" fill="#1b1a17">sRGB 贴图</text>
-    <text x="160" y="128" text-anchor="middle" font-size="15" fill="#7a756b">8-bit 编码值</text>
-    <text x="160" y="152" text-anchor="middle" font-size="13" fill="#a39d91">0.5 ≈ 0.214 线性亮度</text>
+    <rect x="36" y="60" width="248" height="112" rx="12" class="box"/>
+    <text x="160" y="100" text-anchor="middle" font-size="22" font-weight="600" class="title">sRGB 贴图</text>
+    <text x="160" y="128" text-anchor="middle" font-size="15" class="sub">8-bit 编码值</text>
+    <text x="160" y="152" text-anchor="middle" font-size="13" class="tiny">0.5 ≈ 0.214 线性亮度</text>
 
     <!-- box 2 -->
-    <rect x="336" y="60" width="248" height="112" rx="12" fill="#ffffff" stroke="#c9a58d"/>
-    <text x="460" y="100" text-anchor="middle" font-size="22" font-weight="600" fill="#1b1a17">线性空间</text>
-    <text x="460" y="128" text-anchor="middle" font-size="15" fill="#7a756b">光照 / 混合 / 插值</text>
-    <text x="460" y="152" text-anchor="middle" font-size="13" fill="#a39d91">所有计算都在这里发生</text>
+    <rect x="336" y="60" width="248" height="112" rx="12" class="box-strong"/>
+    <text x="460" y="100" text-anchor="middle" font-size="22" font-weight="600" class="title">线性空间</text>
+    <text x="460" y="128" text-anchor="middle" font-size="15" class="sub">光照 / 混合 / 插值</text>
+    <text x="460" y="152" text-anchor="middle" font-size="13" class="tiny">所有计算都在这里发生</text>
 
     <!-- box 3 -->
-    <rect x="636" y="60" width="248" height="112" rx="12" fill="#ffffff" stroke="#e3ddd1"/>
-    <text x="760" y="100" text-anchor="middle" font-size="22" font-weight="600" fill="#1b1a17">sRGB 输出</text>
-    <text x="760" y="128" text-anchor="middle" font-size="15" fill="#7a756b">先色调映射，再编码</text>
-    <text x="760" y="152" text-anchor="middle" font-size="13" fill="#a39d91">交给显示器显示</text>
+    <rect x="636" y="60" width="248" height="112" rx="12" class="box"/>
+    <text x="760" y="100" text-anchor="middle" font-size="22" font-weight="600" class="title">sRGB 输出</text>
+    <text x="760" y="128" text-anchor="middle" font-size="15" class="sub">先色调映射，再编码</text>
+    <text x="760" y="152" text-anchor="middle" font-size="13" class="tiny">交给显示器显示</text>
 
     <!-- arrows -->
-    <line x1="286" y1="116" x2="332" y2="116" stroke="#a39d91" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <text x="309" y="101" text-anchor="middle" font-size="13" fill="#9a4f2e">解码</text>
+    <line x1="286" y1="116" x2="332" y2="116" stroke-width="1.5" marker-end="url(#arrow)" class="arrow"/>
+    <text x="309" y="101" text-anchor="middle" font-size="13" class="accent-label">解码</text>
 
-    <line x1="586" y1="116" x2="632" y2="116" stroke="#a39d91" stroke-width="1.5" marker-end="url(#arrow)"/>
-    <text x="609" y="101" text-anchor="middle" font-size="13" fill="#9a4f2e">编码</text>
+    <line x1="586" y1="116" x2="632" y2="116" stroke-width="1.5" marker-end="url(#arrow)" class="arrow"/>
+    <text x="609" y="101" text-anchor="middle" font-size="13" class="accent-label">编码</text>
 
-    <text x="460" y="214" text-anchor="middle" font-size="14" fill="#8b857a">
+    <text x="460" y="214" text-anchor="middle" font-size="14" class="footnote">
       同一个 8-bit 数值，在两种空间里代表的光强并不相同
     </text>
   </g>

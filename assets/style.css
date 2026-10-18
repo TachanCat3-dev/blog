@@ -1,28 +1,44 @@
 /* ------------------------------------------------------------------
    技术美术笔记 · 极简样式
-   站点固定使用浅色主题；想换颜色：直接调整下面的颜色变量即可。
+   纯白 / 纯黑两套主题，跟随系统；想换颜色直接改下面的变量。
 ------------------------------------------------------------------- */
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 
-  --bg: #fbfaf7;
-  --text: #201f1b;
-  --muted: #6b675e;
-  --faint: #928d83;
-  --line: #e7e3da;
-  --line-soft: #f0ede6;
-  --line-strong: #d7d2c7;
-  --accent: #8f4a2c;
-  --selection: #ecdccd;
-  --code-bg: #f3f0e9;
-  --code-line: #e5e0d5;
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: #595959;
+  --faint: #8c8c8c;
+  --line: #e6e6e6;
+  --line-soft: #f2f2f2;
+  --line-strong: #cccccc;
+  --accent: #000000;
+  --selection: #000000;
+  --code-bg: #f5f5f5;
+  --code-line: #e6e6e6;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei",
     sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "Cascadia Code", "JetBrains Mono",
     Consolas, "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #b3b3b3;
+    --faint: #8f8f8f;
+    --line: #262626;
+    --line-soft: #161616;
+    --line-strong: #404040;
+    --accent: #ffffff;
+    --selection: #ffffff;
+    --code-bg: #111111;
+    --code-line: #2b2b2b;
+  }
 }
 
 *,
@@ -55,7 +71,7 @@ a {
 
 ::selection {
   background: var(--selection);
-  color: var(--text);
+  color: var(--bg);
 }
 
 :focus-visible {
@@ -107,7 +123,9 @@ a {
 }
 
 .brand a:hover {
-  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .site-nav {
@@ -191,6 +209,9 @@ a {
 
 .post-title:hover {
   color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .post-summary {
@@ -360,7 +381,7 @@ a {
 .prose blockquote {
   margin: 1.9rem 0;
   padding: 0.15rem 0 0.15rem 1.2rem;
-  border-left: 2px solid var(--accent);
+  border-left: 2px solid var(--line-strong);
   color: var(--muted);
 }
 
