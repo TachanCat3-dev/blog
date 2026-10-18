@@ -1,6 +1,7 @@
 // 静态博客构建：读取 content/，生成首页、文章页、关于页、404 与 RSS。
 // 没有任何第三方依赖，用 Node 自带的 fs / path 即可。
 
+import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -226,9 +227,10 @@ function renderPage(site, options) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(documentTitle)}</title>
   <meta name="description" content="${escapeAttr(descriptionText)}">
-${site.author ? `  <meta name="author" content="${escapeAttr(site.author)}">\n` : ''}  <meta name="color-scheme" content="light dark">
+${site.author ? `  <meta name="author" content="${escapeAttr(site.author)}">\n` : ''}  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbfaf7">
   <link rel="icon" href="${prefix}assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="${prefix}assets/style.css">
+  <link rel="stylesheet" href="${prefix}assets/style.css?v=${site.assetVersion}">
   <link rel="alternate" type="application/rss+xml" title="${escapeAttr(site.title)}" href="${prefix}feed.xml">
   <link rel="canonical" href="${escapeAttr(canonical)}">
   <meta property="og:type" content="${isPost ? 'article' : 'website'}">
@@ -435,6 +437,11 @@ async function writeOutput(relativePath, content) {
 export async function build({ quiet = false } = {}) {
   const started = Date.now();
   const site = await loadSite();
+  // 给样式表带一个内容哈希，避免浏览器或 GitHub Pages CDN 缓存旧样式。
+  site.assetVersion = createHash('sha256')
+    .update(await readFile(path.join(ROOT, 'assets/style.css'), 'utf8'))
+    .digest('hex')
+    .slice(0, 8);
   const { posts, warnings } = await readPosts();
   const about = await readAbout();
   const hasAbout = Boolean(about);

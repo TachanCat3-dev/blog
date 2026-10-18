@@ -4,7 +4,7 @@
 
 - 首页：按年份分组的文章列表
 - 文章页：Markdown 排版、代码块、表格、图片、上一篇 / 下一篇
-- 关于页、RSS、404、深色模式（跟随系统）、移动端适配
+- 关于页、RSS、404、固定浅色主题、移动端适配
 - 所有页面在本地预先生成，部署时只需要把生成好的 HTML 推上去
 
 ## 环境要求
@@ -163,7 +163,7 @@ summary: 从一张贴图说起，把 sRGB 编码、线性光照和最终输出�
 
 ## 自定义
 
-- **颜色 / 字体 / 宽度**：都在 `assets/style.css` 顶部的 CSS 变量里，深色模式在 `@media (prefers-color-scheme: dark)` 中单独定义。
+- **颜色 / 字体 / 宽度**：都在 `assets/style.css` 顶部的 CSS 变量里。站点目前固定浅色主题，如果以后想恢复深色，可以在 CSS 里加一段 `@media (prefers-color-scheme: dark)` 覆盖这些变量。
 - **页面结构**：在 `scripts/build.mjs` 的 `renderPage`、`renderIndex` 等函数里。
 - **图标**：替换 `assets/favicon.svg`。
 - **示例内容**：`content/posts/` 里有两篇演示文章，`content/about.md` 是“关于”页模板，都可以直接改或删掉。
