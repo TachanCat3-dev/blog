@@ -1,0 +1,19 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getNotes, url, dateText } from '../../lib/notes';
+export async function getStaticPaths() {
+  const notes = await getNotes();
+  return notes.map((note,index) => ({ params: { slug: note.id }, props: { note, older: notes[index+1], newer: notes[index-1] } }));
+}
+const { note, older, newer } = Astro.props;
+const { Content, headings } = await render(note);
+const minutes = Math.max(1, Math.ceil((note.body?.length || 0)/500));
+---
+<Base title={note.data.title} description={note.data.summary} active="notes">
+  <article class="article">
+    <header class="article-header"><a class="back-link mono" href={url('#notes')}>← ALL NOTES</a><p class="eyebrow">FIELD NOTE / {note.data.tags.join(' / ')}</p><h1>{note.data.title}</h1><p class="article-summary">{note.data.summary}</p><div class="article-meta mono"><time datetime={note.data.date.toISOString()}>{dateText(note.data.date)}</time><span>{minutes} MIN READ</span><span>LEARNING IN PUBLIC</span></div></header>
+    <div class="article-columns"><div class="prose"><Content /></div><aside class="toc"><p class="mono">ON THIS PAGE</p><nav aria-label="文章目录">{headings.filter((heading) => heading.depth > 1 && heading.depth < 4).map((heading) => <a class:list={{ nested: heading.depth === 3 }} href={`#${heading.slug}`}>{heading.text}</a>)}</nav></aside></div>
+    <nav class="article-navigation" aria-label="相邻文章"><div>{older && <a href={url(`posts/${older.id}/`)}><span class="mono">← PREVIOUS NOTE</span>{older.data.title}</a>}</div><div>{newer && <a href={url(`posts/${newer.id}/`)}><span class="mono">NEXT NOTE →</span>{newer.data.title}</a>}</div></nav>
+  </article>
+</Base>

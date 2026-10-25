@@ -1,0 +1,25 @@
+---
+---
+<section class="material-lab" id="lab" aria-label="交互材质实验">
+  <div class="viewport-top"><span><i></i><span id="render-status">MATERIAL STUDY</span></span><span>01 / SURFACE</span></div>
+  <div class="viewport-stage">
+    <svg class="lab-fallback" viewBox="0 0 600 380" aria-label="灰度材质球预览" role="img"><defs><radialGradient id="sphere" cx="30%" cy="25%"><stop stop-color="#fff"/><stop offset=".4" stop-color="#aaa"/><stop offset=".8" stop-color="#333"/><stop offset="1" stop-color="#111"/></radialGradient></defs><ellipse cx="300" cy="316" rx="128" ry="18" fill="#777" opacity=".14"/><circle cx="300" cy="175" r="126" fill="url(#sphere)"/></svg>
+    <canvas id="material-canvas" aria-label="实时材质球，可拖动旋转视角"></canvas>
+    <span class="viewport-axis">Y<br/>│<br/>└─ X</span>
+    <span class="viewport-hint">拖动旋转视角</span>
+    <span class="corner top-left"></span><span class="corner bottom-right"></span>
+  </div>
+  <div class="lab-controls">
+    <div class="material-modes" role="group" aria-label="材质模式">
+      <button data-mode="0" class="selected" aria-pressed="true">CLAY</button>
+      <button data-mode="1" aria-pressed="false">CHROME</button>
+      <button data-mode="2" aria-pressed="false">WIREFRAME</button>
+    </div>
+    <label class="roughness-control" for="roughness"><span>ROUGHNESS <output id="roughness-value">0.38</output></span><input id="roughness" type="range" min="0.05" max="0.95" step="0.01" value="0.38" /></label>
+  </div>
+  <p class="lab-caption"><span>实时光照 × 程序化材质</span><span>GLSL / WEBGL</span></p>
+</section>
+<script>
+  import { initMaterialLab } from '../scripts/material';
+  initMaterialLab();
+</script>

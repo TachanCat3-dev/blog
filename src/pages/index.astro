@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import MaterialLab from '../components/MaterialLab.astro';
+import { getNotes, url, dateText } from '../lib/notes';
+const notes = await getNotes();
+const tags = [...new Set(notes.flatMap((note) => note.data.tags))];
+---
+<Base active="notes">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="tiny-cross">+</span> TECHNICAL ART / FIELD NOTES</p>
+      <h1>在艺术与技术<br/>之间，<span class="outlined-text">持续探索。</span></h1>
+      <p class="hero-description">把看见的效果，变成理解的原理。<br/>记录渲染、材质与工具开发中的学习和实践。</p>
+      <a class="text-link" href="#notes">翻开学习笔记 <span>↗</span></a>
+      <div class="hero-footnote"><span>OBSERVE.</span><span>BREAK DOWN.</span><span>MAKE.</span></div>
+    </div>
+    <MaterialLab />
+  </section>
+  <section class="focus-strip" aria-label="学习方向">
+    <div><span class="focus-index">01</span><h2>渲染与光照<span>RENDERING</span></h2><p>从像素出发，理解画面的形成。</p></div>
+    <div><span class="focus-index">02</span><h2>材质与着色<span>SHADERS</span></h2><p>用数学和代码，描述表面的语言。</p></div>
+    <div><span class="focus-index">03</span><h2>工具与流程<span>TOOLING</span></h2><p>把重复的工作，变成顺手的工具。</p></div>
+  </section>
+  <section class="journal" id="notes">
+    <div class="section-heading"><div><p class="eyebrow">THE LEARNING LOG</p><h2>学习日志<span>/{String(notes.length).padStart(2,'0')}</span></h2></div><span class="mono section-aside">小步实践，持续记录。</span></div>
+    <div class="journal-toolbar">
+      <div class="filters" role="group" aria-label="按主题筛选"><button class="active" data-filter="全部" aria-pressed="true">全部 <span>{notes.length}</span></button>{tags.map((tag) => <button data-filter={tag} aria-pressed="false">{tag} <span>{notes.filter((note) => note.data.tags.includes(tag)).length}</span></button>)}</div>
+      <label class="search-label"><span aria-hidden="true">⌕</span><input id="note-search" type="search" placeholder="查找笔记…" aria-label="搜索笔记" autocomplete="off" /></label>
+    </div>
+    <div class="note-grid">
+      {notes.map((note,index) => <article class="note-card" data-tags={JSON.stringify(note.data.tags)} data-search={`${note.data.title} ${note.data.summary} ${note.data.tags.join(' ')}`}>
+        <a href={url(`posts/${note.id}/`)} class="note-card-link">
+          <div class:list={['note-visual',note.id === 'linear-space' ? 'visual-sphere':'visual-grid']} aria-hidden="true">
+            <span class="visual-label">{note.id === 'linear-space' ? 'LINEAR / sRGB':'PROCESS / NOTES'}</span>
+            <div class={note.id === 'linear-space' ? 'render-sphere':'render-mesh'}></div>
+            <span class="visual-id">STUDY_{String(index+1).padStart(3,'0')}</span><span class="visual-arrow">↗</span>
+          </div>
+          <div class="note-meta"><time datetime={note.data.date.toISOString()}>{dateText(note.data.date)}</time><span>{note.data.tags.join(' / ')}</span></div>
+          <h3>{note.data.title}</h3><p>{note.data.summary}</p>
+          <span class="read-note">阅读笔记 <span>↗</span></span>
+        </a>
+      </article>)}
+    </div>
+    <p class="empty-state" hidden role="status">暂时没有匹配的笔记，试试其他关键词。</p>
+    <p class="journal-end mono">END OF LOG <span>更多实验，正在路上。</span><span>+</span></p>
+  </section>
+</Base>
+<script>
+  const filters = [...document.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+  const cards = [...document.querySelectorAll<HTMLElement>('.note-card')];
+  const search = document.querySelector<HTMLInputElement>('#note-search')!;
+  const empty = document.querySelector<HTMLElement>('.empty-state')!;
+  let selected = '全部';
+  function filterNotes() {
+    const query = search.value.trim().toLocaleLowerCase();
+    let count = 0;
+    cards.forEach((card) => {
+      const tags: string[] = JSON.parse(card.dataset.tags || '[]');
+      const visible = (selected === '全部' || tags.includes(selected)) && (card.dataset.search || '').toLocaleLowerCase().includes(query);
+      card.hidden = !visible;
+      if (visible) count++;
+    });
+    empty.hidden = count !== 0;
+  }
+  filters.forEach((button) => button.addEventListener('click', () => {
+    selected = button.dataset.filter || '全部';
+    filters.forEach((item) => { item.classList.toggle('active',item === button); item.setAttribute('aria-pressed',String(item === button)); });
+    filterNotes();
+  }));
+  search.addEventListener('input', filterNotes);
+</script>

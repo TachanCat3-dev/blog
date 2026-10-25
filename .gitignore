@@ -1,9 +1,10 @@
-# 本地预览与截图
 .preview/
-
-# 系统文件
+.astro-template/
+node_modules/
+dist/
+.astro/
 .DS_Store
 Thumbs.db
-
-# 没有依赖，但以防万一
-node_modules/
+.env
+.env.*
+!.env.example
