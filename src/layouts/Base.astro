@@ -4,7 +4,7 @@ import site from '../../site.json';
 import { url } from '../lib/notes';
 interface Props { title?: string; description?: string; active?: string; }
 const { title, description = site.description, active = '' } = Astro.props;
-const fullTitle = title ? `${title} — ${site.title}` : `${site.title} / TA FIELD NOTES`;
+const fullTitle = title ? `${title} — ${site.title}` : site.title;
 const canonical = new URL(Astro.url.pathname.replace(/\/404\/?$/, '/404.html'), Astro.site);
 ---
 <!doctype html>
@@ -17,7 +17,7 @@ const canonical = new URL(Astro.url.pathname.replace(/\/404\/?$/, '/404.html'), 
     <meta name="description" content={description} />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#1f1f1f" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href={url('assets/favicon.svg')} />
     <link rel="alternate" type="application/rss+xml" title={site.title} href={url('feed.xml')} />
@@ -37,22 +37,25 @@ const canonical = new URL(Astro.url.pathname.replace(/\/404\/?$/, '/404.html'), 
     <div class="site-shell">
       <header class="site-header">
         <a class="brand" href={url()} aria-label="技术美术笔记首页">
-          <span class="brand-mark">T<span>/</span>A<span class="brand-dot">.</span></span>
-          <span class="brand-name">TECHNICAL ART<span>学习 · 实验 · 记录</span></span>
+          {site.title}<span class="brand-sub">学习笔记</span>
         </a>
         <nav aria-label="主导航">
-          <a href={url('#notes')} aria-current={active === 'notes' ? 'page' : undefined}>笔记</a>
-          <a href={url('#lab')}>材质实验</a>
+          <a href={url()} aria-current={active === 'notes' ? 'page' : undefined}>笔记</a>
           <a href={url('about/')} aria-current={active === 'about' ? 'page' : undefined}>关于</a>
+          <a href={url('feed.xml')}>RSS</a>
         </nav>
         <button class="theme-toggle" aria-label="切换深浅色主题" title="切换深浅色主题">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"/></svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15Z" fill="currentColor" stroke="none"/></svg>
         </button>
       </header>
       <main id="main"><slot /></main>
       <footer class="site-footer">
-        <a class="footer-brand" href={url()}>TA FIELD NOTES<span>艺术的直觉，技术的逻辑。</span></a>
-        <div><a href="https://github.com/TachanCat3-dev/blog" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={url('feed.xml')}>RSS ↗</a><span>© {new Date().getFullYear()} · Built with Astro</span></div>
+        <span>© {new Date().getFullYear()} {site.title}</span>
+        <div>
+          <a href="https://github.com/TachanCat3-dev/blog" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={url('feed.xml')}>RSS</a>
+          <a href={url('about/')}>关于</a>
+        </div>
       </footer>
     </div>
     <script>

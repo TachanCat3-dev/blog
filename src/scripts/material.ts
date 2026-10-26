@@ -1,6 +1,6 @@
-export function initMaterialLab() {
+﻿export function initMaterialLab() {
   const canvas = document.querySelector<HTMLCanvasElement>("#material-canvas");
-  const panel = document.querySelector<HTMLElement>(".material-lab");
+  const panel = document.querySelector<HTMLElement>(".lab");
   if (!canvas || !panel) return;
   const gl = canvas.getContext("webgl", { alpha: false, antialias: true });
   const buttons = [...panel.querySelectorAll<HTMLButtonElement>("[data-mode]")];
@@ -8,7 +8,7 @@ export function initMaterialLab() {
   const output = panel.querySelector<HTMLOutputElement>("#roughness-value")!;
   const status = panel.querySelector<HTMLElement>("#render-status")!;
   if (!gl) {
-    status.textContent = "STATIC / PREVIEW";
+    status.textContent = "静态预览";
     canvas.hidden = true;
     buttons.forEach((button) => (button.disabled = true));
     slider.disabled = true;
@@ -31,16 +31,16 @@ export function initMaterialLab() {
       vec3 rd=normalize(fw*2.75+right*uv.x+up*uv.y);
       vec3 center=vec3(0.,.15,0.), oc=ro-center;
       float b=dot(oc,rd),c=dot(oc,oc)-1.,disc=b*b-c;
-      vec3 bg=mix(vec3(1.),vec3(0.),dark), col=bg;
+      vec3 bg=mix(vec3(1.),vec3(.149),dark), col=bg;
       float ground=(-.86-ro.y)/rd.y;
       if(ground>0.){
         vec3 q=ro+rd*ground;
         vec2 grid=abs(fract(q.xz*1.35+.5)-.5);
         float line=1.-smoothstep(.012,.03,min(grid.x,grid.y));
-        float fade=exp(-length(q.xz)*.22)*.19;
-        float shadow=exp(-dot(q.xz,q.xz)*1.35)*.36;
-        col=mix(bg,vec3(1.-dark),line*fade);
-        col=mix(col,vec3(.02),shadow*(1.-dark*.3));
+        float fade=exp(-length(q.xz)*.22)*.16;
+        float shadow=exp(-dot(q.xz,q.xz)*1.35)*.22;
+        col=mix(bg,mix(vec3(.25),vec3(.72),dark),line*fade);
+        col=mix(col,bg*.55,shadow);
       }
       if(disc>0.){
         float t=-b-sqrt(disc);
@@ -81,7 +81,7 @@ export function initMaterialLab() {
     fs = compile(gl.FRAGMENT_SHADER, fragment);
   if (!vs || !fs) {
     canvas.hidden = true;
-    status.textContent = "STATIC / PREVIEW";
+    status.textContent = "静态预览";
     buttons.forEach((b) => (b.disabled = true));
     slider.disabled = true;
     return;
@@ -92,7 +92,7 @@ export function initMaterialLab() {
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     canvas.hidden = true;
-    status.textContent = "STATIC / PREVIEW";
+    status.textContent = "静态预览";
     buttons.forEach((b) => (b.disabled = true));
     slider.disabled = true;
     return;
@@ -174,14 +174,14 @@ export function initMaterialLab() {
     event.preventDefault();
     canvas.hidden = true;
     panel.classList.remove("webgl-ready");
-    status.textContent = "STATIC / PREVIEW";
+    status.textContent = "静态预览";
     buttons.forEach((button) => (button.disabled = true));
     slider.disabled = true;
   });
   canvas.addEventListener("webglcontextrestored", () => location.reload());
   new ResizeObserver(draw).observe(canvas);
   window.addEventListener("ta-theme-change", draw);
-  status.textContent = "WEBGL / LIVE";
+  status.textContent = "实时渲染";
   panel.classList.add("webgl-ready");
   draw();
 }

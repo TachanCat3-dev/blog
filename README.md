@@ -59,13 +59,15 @@ git push
 | 首页文案和笔记列表 | `src/pages/index.astro` |
 | 关于页面正文 | `content/about.md` |
 | 全站布局、导航、主题按钮 | `src/layouts/Base.astro` |
-| 排版、纯黑白主题、响应式样式 | `src/styles/global.css` |
+| 配色变量、排版、响应式样式 | `src/styles/global.css` |
 | 材质实验 UI | `src/components/MaterialLab.astro` |
 | WebGL 着色器和交互 | `src/scripts/material.ts` |
-| 文章阅读页和目录 | `src/pages/posts/[...slug].astro` |
+| 文章阅读页 | `src/pages/posts/[...slug].astro` |
 | 自动部署 | `.github/workflows/deploy.yml` |
 
-材质实验包含 CLAY、CHROME、WIREFRAME 三种模式；可拖动旋转、调节粗糙度。WebGL 不可用时显示静态预览，文章和导航仍然可以使用。默认跟随系统深浅色，也可点页头按钮手动切换，选择保存在本机浏览器。
+材质实验包含「黏土 / 金属 / 线框」三种模式；可拖动旋转、调节粗糙度。WebGL 不可用时显示静态预览，文章和导航仍然可以使用。默认跟随系统深浅色，也可点页头按钮手动切换，选择保存在本机浏览器。
+
+**改配色、字体、间距、文案的完整说明见 [CUSTOMIZE.md](CUSTOMIZE.md)。**
 
 ## 开发和验证
 
@@ -84,6 +86,6 @@ npm run preview
 
 ## 迁移说明
 
-原有两篇 Markdown、RSS `/feed.xml`、文章链接和插图均保留。原先根目录下的 HTML、手写 Markdown 解析器和本地静态服务器由 Astro 替代。旧站版本可在 Git 历史的 `0926a21` 找到。
+原有两篇 Markdown、RSS `/feed.xml`、文章链接和插图均保留。原先根目录下的 HTML、手写 Markdown 解析器和本地静态服务器由 Astro 替代。旧站版本可在 Git 历史的 `0926a21` 找到。旧 `GithubShowcase` 里筛出来的学习笔记收在 `archive/`，不参与构建。
 
-官方示例来源版本：`withastro/astro@e5a3a1bdec268933f01a0da3fbeb4e38bdf455c9`。交互材质球、黑白布局和笔记筛选为本项目定制，不依赖第三方图形 CDN。
+官方示例来源版本：`withastro/astro@e5a3a1bdec268933f01a0da3fbeb4e38bdf455c9`。交互材质球、灰阶配色和笔记筛选为本项目定制，不依赖第三方图形 CDN。
